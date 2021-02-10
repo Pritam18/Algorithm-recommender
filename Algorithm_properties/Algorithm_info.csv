@@ -1,0 +1,17 @@
+Algorithm ,Sensitivity,Expected Data Type,Expected Output Type,Expected Process,Continuity
+Naïve Bayes,Nonlinear,Mixed,Class,Classification,Discrete
+Random Forest,Nonlinear,Mixed,Class,Classification,Discrete
+Hierarchial Clustering,Nonlinear,Mixed,Group,Clustering,Discrete
+Feature Clustering,Nonlinear,Mixed,Group,Clustering,Discrete
+K-means,Nonlinear,Mixed,Group,Clustering,Discrete
+KNN,Nonlinear,Mixed,Class,Classification,Discrete
+Hidden Markov Model,Nonlinear,Mixed,Pattern,Classification,Discrete
+Linear Regression,Linear,Numeric,Class,Regression,Continuous
+Logistic Regression,Nonlinear,Mixed,Class,Classification,Discrete
+Adaboost,Nonlinear,Mixed,Class,Classification,Discrete
+Multi Layer Perceptron,Nonlinear,Mixed,Class,Classification,Discrete
+Support Vector Machine,Nonlinear,Mixed,Class,Classification,Discrete
+ID3,Nonlinear,Mixed,Class,Classification,Discrete
+CART,Nonlinear,Mixed,Class,Classification,Discrete
+C4.5,Nonlinear,Mixed,Class,Classification,Discrete
+j48,Nonlinear,Mixed,Class,Classification,Discrete

@@ -1,5 +1,7 @@
 import os
 import pandas as pd
+import csv
+from nltk.corpus import wordnet as wn
 
 
 def get_file_extension(input_file):
@@ -10,7 +12,7 @@ def get_file_extension(input_file):
         return 1
     elif file_extension == '.txt':
         return 2
-    else:                       # unknown file format
+    else:  # unknown file format
         return 3
 
 
@@ -75,12 +77,53 @@ def extract_data_knowledge(input_file):
         # print(data['UNITS'].dtype)
         # print(len(data.columns))
         return data.dtypes
-        
 
-# def extract_goal_knowledge(input_file):
-#     print('hello')
 
-# def extract_algo_knowledge():
+def get_goal_process():
+    print("Hello")
+
+
+def get_goal_data_type():
+    print("Hello")
+
+
+def get_goal_model_type():
+    print("Hello")
+
+
+def get_goal_target():
+    print("Hello")
+
+
+def get_goal_location():
+    print("Hello")
+
+
+def extract_goal_knowledge(input_file):
+    print('hello')
+
+
+def extract_algo_knowledge():
+    algo_property = '../Algorithm_properties/Algorithm_info.csv'
+    algo_info_list = []
+    # print(pd.read_csv(algo_property))
+    with open(algo_property, 'r') as info:
+        for line in csv.reader(info):
+            algo_info_list.append(line)
+    return algo_info_list[1:]
+
+
+def match_knowledge():
+    algo_info = extract_algo_knowledge()
+    a = wn.synsets('classify')[0]
+    for a_i in algo_info[0]:
+        print(a_i)
+        print(wn.synsets(a_i))
+        b = wn.synsets(a_i)
+        if b:
+            for tr in range(len(b)):
+                print(a.wup_similarity(b[tr]))
+
 
 location = '/Users/pritamkhan/Desktop/Research/Algorithm_Recommender/test_data/Machine_readable_file_bdcsf2020sep.csv'
 
@@ -91,4 +134,5 @@ print(get_data_type(location))
 # print(d['Series_title_4'].isnull().values.all())
 
 print(feature_size(location))
-
+print(extract_algo_knowledge())
+match_knowledge()
