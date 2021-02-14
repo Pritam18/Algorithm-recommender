@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import csv
 from nltk.corpus import wordnet as wn
+from pyjarowinkler import distance as ds
 
 
 def get_file_extension(input_file):
@@ -115,14 +116,19 @@ def extract_algo_knowledge():
 
 def match_knowledge():
     algo_info = extract_algo_knowledge()
-    a = wn.synsets('classify')[0]
+    # data_info =
+    a = wn.synsets('classified')[0]
+    a = 'classified'
     for a_i in algo_info[0]:
         print(a_i)
         print(wn.synsets(a_i))
         b = wn.synsets(a_i)
+        a = 'classified'
+        print("Jaro-Winkler distance: ", ds.get_jaro_distance(a_i, a))
         if b:
             for tr in range(len(b)):
-                print(a.wup_similarity(b[tr]))
+                a = wn.synsets('classified')[0]
+                print("Wu similarity: ", a.wup_similarity(b[tr]))
 
 
 location = '/Users/pritamkhan/Desktop/Research/Algorithm_Recommender/test_data/Machine_readable_file_bdcsf2020sep.csv'
