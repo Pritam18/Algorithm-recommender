@@ -1,4 +1,4 @@
-Algorithm ,Sensitivity,Expected Data Type,Expected Output Type,Expected Process,Continuity
+Algorithm,Sensitivity,Expected Data Type,Expected Output Type,Expected Process,Continuity
 Naïve Bayes,Nonlinear,Mixed,Class,Classification,Discrete
 Random Forest,Nonlinear,Mixed,Class,Classification,Discrete
 Hierarchial Clustering,Nonlinear,Mixed,Group,Clustering,Discrete

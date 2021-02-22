@@ -3,8 +3,10 @@ import pandas as pd
 
 
 class DataKnowledge:
-    def __init__(self, input_file):
-        self.input_file = input_file
+    def __init__(self, dataset_properties, iterator):
+        self.dataset_properties = pd.read_csv(dataset_properties)
+        self.iterator = iterator
+        self.input_file = self.dataset_properties.iloc[self.iterator]['File Location']
 
     def get_file_extension(self):
         file_name, file_extension = os.path.splitext(self.input_file)
@@ -27,37 +29,45 @@ class DataKnowledge:
             data = pd.read_csv(self.input_file)
             # print(data['UNITS'].dtype)
             data_type = {}
+            data_type_list = []
             for i in range(len(data.columns)):
                 if data.dtypes[i] == 'object':
                     data_type[data.columns[i]] = 'nominal'
+                    data_type_list.append('nominal')
                 elif data[data.columns[i]].isnull().values.all():
                     data_type[data.columns[i]] = 'Empty'
                 else:
                     data_type[data.columns[i]] = 'numerical'
+                    data_type_list.append('numerical')
             # print(data_type)
-            return data_type
+            return data_type, data_type_list
 
     def get_linearity(self):
         ext_type = self.get_file_extension()
         linearity = {}
+        linearity_list = []
+        linear_counter = 0
         if ext_type == 1:
-            data_type = self.get_data_type()
+            data_type, data_type_list = self.get_data_type()
             for d_t in data_type:
                 if data_type[d_t] == 'numerical':
                     linearity.update({d_t: 'linear'})
+                    linear_counter += 1
+                    linearity_list.append('linear')
                     # print(d_t)
                 else:
                     linearity.update({d_t: 'Nonlinear'})
-        return linearity
+                    linearity_list.append('Nonlinear')
+        return linearity, linear_counter, linearity_list
         # print("Hello")
 
     def get_data_context(self):
-        print("Hello")
+        return self.dataset_properties.iloc[self.iterator]['Context']
 
     def get_location(self):
-        print("Hello")
+        return self.dataset_properties.iloc[self.iterator]['Location']
 
-    def feature_size(self):
+    def get_feature_size(self):
         """
         To extract data knowledge this function is for find the total number of features.
         """
@@ -67,15 +77,18 @@ class DataKnowledge:
             return len(data.columns)
 
     def extract_data_knowledge(self):
-        ext_type = self.get_file_extension()
-        if ext_type == 1:
-            data = pd.read_csv(self.input_file)
-            # print(data['UNITS'].dtype)
-            # print(len(data.columns))
-            return data.dtypes
+        data_type, data_type_list = self.get_data_type()
+        linearity, linear_counter, linearity_list = self.get_linearity()
+        data_list = [data_type_list, linearity_list, self.get_data_context(), self.get_location()]
+        return data_list
 
 
-location = '/Users/pritamkhan/Desktop/Research/Algorithm_Recommender/test_data/Machine_readable_file_bdcsf2020sep.csv'
-
-dk = DataKnowledge(location)
-print(dk.get_linearity())
+location = '../../Data/dataset_properties.csv'
+dk = DataKnowledge(location, 0)
+print(dk.extract_data_knowledge())
+for test in dk.extract_data_knowledge():
+    print(type(test))
+    if isinstance(test, list):
+        print(test)
+    else:
+        print("HELLO")

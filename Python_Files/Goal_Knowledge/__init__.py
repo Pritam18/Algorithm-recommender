@@ -3,45 +3,35 @@ import csv
 
 
 class GoalKnowledge:
-    def __init__(self, goal_input):
+    def __init__(self, goal_input, iterator):
         self.goal_input = pd.read_csv(goal_input)
+        self.iterator = iterator
 
     def get_goal_process(self):
-        process_list = []
-        for line in csv.reader(self.goal_input['Process']):
-            process_list.append(line[0])
-        return process_list
+        # process_list = []
+        # for line in csv.reader(self.goal_input['Process']):
+        #     process_list.append(line[0])
+        return self.goal_input.iloc[self.iterator]['Process']
 
     def get_goal_data_type(self):
-        data_type_list = []
-        for line in csv.reader(self.goal_input['Data Type']):
-            data_type_list.append(line[0])
-        return data_type_list
+        return self.goal_input.iloc[self.iterator]['Data Type']
 
     def get_goal_model_type(self):
-        model_type_list = []
-        for line in csv.reader(self.goal_input['Model Type']):
-            model_type_list.append(line[0])
-        return model_type_list
+        return self.goal_input.iloc[self.iterator]['Model Type']
 
     def get_goal_context(self):
-        goal_target_list = []
-        print(self.goal_input.iloc[0]['Goal Context'])
-        for line in csv.reader(self.goal_input['Goal Context']):
-            goal_target_list.append(line[0])
-        return goal_target_list
+        return self.goal_input.iloc[self.iterator]['Goal Context']
 
     def get_goal_location(self):
-        goal_location_list = []
-        for line in csv.reader(self.goal_input['Goal Location']):
-            # print(line[0])
-            goal_location_list.append(line[0])
-        return goal_location_list
+        return self.goal_input.iloc[self.iterator]['Goal Location']
 
     def extract_goal_knowledge(self):
-        print('hello')
+        goal_list = [self.get_goal_process(), self.get_goal_data_type(), self.get_goal_model_type(),
+                     self.get_goal_context(), self.get_goal_location()]
+        return goal_list
 
 
 location = '../../Goal/goals.csv'
-gk = GoalKnowledge(location)
-print(gk.get_goal_context())
+for i in range(2):
+    gk = GoalKnowledge(location, i)
+    print(gk.extract_goal_knowledge())
