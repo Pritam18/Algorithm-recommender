@@ -2,6 +2,8 @@ from nltk.corpus import wordnet as wn
 from pyjarowinkler import distance as ds
 
 from Python_Files.Algorithm_Knowledge import Algorithms
+from Python_Files.Data_Knowledge import DataKnowledge
+from Python_Files.Goal_Knowledge import GoalKnowledge
 
 
 def word_similarity(word1, word2):
@@ -31,19 +33,47 @@ def similarity_hausdorff(information1, information2):
     return min([info_similarity(information1, information2), info_similarity(information2, information1)])
 
 
-def match_knowledge(knowledge_datasets, knowledge_goals, knowledge_algorithms, datasets, goals, algorithms):
+def match_knowledge(datasets, goals, algorithms):
+    t_match = []
     for goal in goals:
         max_sim_dataset = -999999
         max_sim_algo = -999999
+        set_goal_dataset = []
+        set_goal_algorithm = []
         for data in datasets:
-            sim_g_d = similarity_hausdorff()
+            sim_g_d = similarity_hausdorff(goal, data)
+            if sim_g_d > max_sim_dataset:
+                set_goal_dataset = [data]
+                max_sim_dataset = sim_g_d
+            elif sim_g_d == max_sim_dataset:
+                set_goal_dataset.append(data)
+
+        for algo in algorithms:
+            sim_g_a = similarity_hausdorff(goal, algo)
+            if sim_g_a > max_sim_algo:
+                set_goal_algorithm = [algo]
+                max_sim_algo = sim_g_a
+            elif sim_g_a == max_sim_algo:
+                set_goal_algorithm.append(algo)
+
+        for set_data in set_goal_dataset:
+            max_sim_merge = -999999
+            set_dataset_algorithm = []
+            for set_algo in set_goal_algorithm:
+                sim_d_a = similarity_hausdorff(set_data, set_algo)
+                if sim_d_a > max_sim_merge:
+                    set_dataset_algorithm = [set_data, set_algo]
+                    max_sim_merge = sim_d_a
+            t_match.append((goal, set_dataset_algorithm[0], set_dataset_algorithm[1]))
+
+    return t_match
 
 
 # match_knowledge()
-wo1 = 'Phone'
-wo2 = 'Phonetics'
-c = wn.synsets(wo1)
-d = wn.synsets(wo2)
+# wo1 = 'Phone'
+# wo2 = 'Phonetics'
+# c = wn.synsets(wo1)
+# d = wn.synsets(wo2)
 # print(d)
 # if not c or not d:
 #     print("True")
@@ -51,4 +81,4 @@ d = wn.synsets(wo2)
 #     print("False")
 # print(c.wup_similarity(d))
 # if c is not in wn:
-print(word_similarity(wo1, wo2))
+# print(word_similarity(wo1, wo2))
